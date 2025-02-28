@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="timer" id="display">000:00</div>
+    <div class="buttons">
+        <button class="start" onclick="startTimer()">Start Timer</button>
+        <button class="stop" onclick="stopTimer()">Stop Timer</button>
+        <button class="reset" onclick="resetTimer()">Reset Timer</button>
+    </div>
+
+    <script>
+        let centiseconds = 0;
+        let timer = null;
+
+        function updateDisplay() {
+            let seconds = Math.floor(centiseconds / 100);
+            let cs = centiseconds % 100;
+            if (seconds > 999) {
+                stopTimer();
+                seconds = 999;
+                cs = 59;
+            }
+            document.getElementById("display").textContent = 
+                String(seconds).padStart(3, '0') + ":" + String(cs).padStart(2, '0');
+        }
+
+        function startTimer() {
+            if (!timer) {
+                timer = setInterval(() => {
+                    centiseconds++;
+                    updateDisplay();
+                }, 10);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            centiseconds = 0;
+            updateDisplay();
+        }
+    </script>
+</body>
+</html>
